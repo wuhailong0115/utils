@@ -9,8 +9,8 @@
  * formatDate(new Date(),'yyyy-MM-dd hh:mm:ss.S') ==> 2006-07-02 08:09:04.423
  * formatDate(new Date(),'yyyy/M/d h:m:s.S')      ==> 2006/7/2 8:9:4.18
  */
-const formatDate = (date, format = 'yyyy-MM-dd') => {
-    const d = new Date(date)
+const formatDate = (format = 'yyyy-MM-dd', date) => {
+    const d = date ? new Date(date) : new Date()
     let o = {
         'M+': d.getMonth() + 1, // 月份
         'd+': d.getDate(), // 日
