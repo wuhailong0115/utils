@@ -175,7 +175,8 @@ const getFloatNum = (min, max) => {
     return Math.random() * (max - min) + min
 }
 /**
- * 处理选择多项时的参数，转String  [1,2,3] ==> '1,2,3'
+ * 处理选择多项时的参数，数组转字符串
+ * [1,2,3] ==> '1,2,3',提交时处理参数
  * @param {Array} statusArray
  * @returns {String}
 */
@@ -187,14 +188,22 @@ const dealParams = (statusArray) => {
     return statusStr.substring(0, statusStr.length-1)
 }
 /**
+ * 字符串转数组 获取时处理数据
+ * '1,2,3' ==> [1,2,3]
+ * @param {String} param
+ * @returns {Array}
+ */
+const toArry = (param) => {
+    return param.split(',')
+}
+/**
  * 数据分组 适用于轮播等  [{}, {}, {}] ==> [[{}, {}], [{}]]
  * @param {Array, Number}  list, needLen
  * @returns {Array}
-*/
-conset splitGroup = (list, needLen) => {
+ */
+const splitGroup = (list, needLen) => {
     let index = 0
     let needList = []
-    let setCount = needLen
     for (let i = 0; i < list.length; i++) {
         index = parseInt(i / needLen)
         if (needList.length <= index) {
@@ -217,5 +226,6 @@ export default {
     getIntNum,
     getFloatNum,
     dealParams,
+    toArry,
     splitGroup
 }

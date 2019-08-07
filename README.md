@@ -31,5 +31,8 @@
 #dealParams  处理选择多项时的参数  [1,2,3] ==> '1,2,3'
 使用方法： dealParams(statusArray)
 
+#toArry  	字符串转数组  '1,2,3' ==> [1,2,3]
+使用方法： toArry(param)
+
 #splitGroup  数据分组
 使用方法： splitGroup(list, needLen)
