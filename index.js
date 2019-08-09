@@ -25,6 +25,7 @@ const formatDataDifference = (timeStamp) => {
     if (minC >= 1) return `${parseInt(minC)}分钟前`
     return `刚刚`
 }
+
 /**
  * 将 Date 转化为指定格式的String
  * 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
@@ -56,6 +57,7 @@ const formatDate = (date, format = 'yyyy-MM-dd') => {
     }
     return format
 }
+
 /**
  * JS获取URL中参数值
  * @param {String, String} url 及需要获取的参数名
@@ -73,6 +75,7 @@ const getQueryString = (url, name) => {
     }
     return null
 }
+
 /**
  * 判断是否是身份证
  * @param {String} code
@@ -133,6 +136,7 @@ const isIdCard = (code) => {
     }
     return pass
 }
+
 /**
  * 判断是否手机
  * @param {String} value
@@ -141,6 +145,7 @@ const isIdCard = (code) => {
 const isPhone = (value) => {
     return /^1[3|4|5|6|7|8|9][0-9]{9}$/.test(value)
 }
+
 /**
  * 判断是否手机 IOS Android
  * @param {String} value
@@ -154,6 +159,7 @@ const isAndroid = () => {
     let u = navigator.userAgent
     return u.indexOf('Android') > -1 || u.indexOf('Linux') > -1
 }
+
 /**
  * 获取一个数的百分比
  * @param {Number,Number} value
@@ -162,6 +168,7 @@ const isAndroid = () => {
 const toPercent = (num, total) => {
     return (Math.round(num / total * 10000) / 100.00)
 }
+
 /**
  * 获取两个数之差 返回整数
  * @param {Number,Number} min,max
@@ -174,6 +181,7 @@ const getIntNum = (min, max) => {
 const getFloatNum = (min, max) => {
     return Math.random() * (max - min) + min
 }
+
 /**
  * 处理选择多项时的参数，数组转字符串
  * [1,2,3] ==> '1,2,3',提交时处理参数
@@ -187,6 +195,7 @@ const dealParams = (statusArray) => {
     }
     return statusStr.substring(0, statusStr.length-1)
 }
+
 /**
  * 字符串转数组 获取时处理数据
  * '1,2,3' ==> [1,2,3]
@@ -196,6 +205,7 @@ const dealParams = (statusArray) => {
 const toArry = (param) => {
     return param.split(',')
 }
+
 /**
  * 数据分组 适用于轮播等  [{}, {}, {}] ==> [[{}, {}], [{}]]
  * @param {Array, Number}  list, needLen
@@ -214,6 +224,51 @@ const splitGroup = (list, needLen) => {
     return needList
 }
 
+/**
+ * 整数每三个加',', 如 '1,234'
+ * @param {Number}  val
+ * @returns {Number}
+ */
+ const commas = (val) => {
+    return Math.round(val).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}
+
+/**
+ * 格式化金额，并保留两位小数
+ * @param {String}  str
+ * @returns {String}
+ */
+ const formatNum = (str) => {
+    let newStr = ""
+    let count = 0
+    // 当数字是整数
+    if (str.indexOf(".") == -1) {
+        for (let i = str.length - 1; i >= 0; i--) {
+            if (count % 3 == 0 && count != 0) {
+                newStr = str.charAt(i) + "," + newStr;
+            } else {
+                newStr = str.charAt(i) + newStr
+            }
+            count ++
+        }
+        str = newStr + ".00" //自动补小数点后两位
+        return str
+    }
+    // 当数字带有小数
+    else {
+        for (let i = str.indexOf(".") - 1; i >= 0; i--) {
+            if (count % 3 == 0 && count != 0) {
+                newStr = str.charAt(i) + "," + newStr
+            } else {
+                newStr = str.charAt(i) + newStr //逐个字符相接起来
+            }
+            count ++
+        }
+        str = newStr + (str + "00").substr((str + "00").indexOf("."), 3)
+        return str
+    }
+}
+
 export default {
     formatDataDifference,
     formatDate,
@@ -227,5 +282,7 @@ export default {
     getFloatNum,
     dealParams,
     toArry,
-    splitGroup
+    splitGroup,
+    commas,
+    formatNum
 }
